@@ -84,8 +84,12 @@ module LanguageHandler
       output_xml =  "#{File.dirname(@input_file)}/output/#{File.basename(@input_file).split('.').first}.xml"
       assert_output = false
       File.open(output_xml, 'r') do |file|
-        @current_sample = file.read
-        assert_output = XmlMatcher.match(@current_sample, output)
+        begin
+          @current_sample = file.read
+          assert_output = XmlMatcher.match(@current_sample, output)
+        rescue => e
+          p e
+        end
       end
       assert_output
     end
